@@ -19,7 +19,6 @@ export async function executeMsgReq(validatedUser: string, req: MsgReq, col: Col
     if (!embedPath.endsWith('.')) {
         embedPath += '.';
     }
-    console.log('req', req, 'embedPath', embedPath);
     if (req.user !== validatedUser) {
         return {
             type: 'error',
@@ -77,7 +76,6 @@ export async function executeMsgReq(validatedUser: string, req: MsgReq, col: Col
         returnDocument: 'after'
     })
 
-    console.log('fetchRes', fetchRes);
     const rcv: {
         [sender: string]: ReceivedMsg;
     } = fetchRes == null ? {} : (embedPath.substring(0, embedPath.length - 1).split('.').reduce((o,i)=> o[i], fetchRes) ?? {});
@@ -87,7 +85,6 @@ export async function executeMsgReq(validatedUser: string, req: MsgReq, col: Col
         type: 'success',
         rcv: rcv
     }
-    console.log('resp', resp);
     await Promise.all(pushPromises);
     return resp;
 }
